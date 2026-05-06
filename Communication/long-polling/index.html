@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Long Polling</title>
+    <style src="style.css"></style>
+  </head>
+  <body>
+    <header>
+      <h1>Long Polling</h1>
+    </header>
+    <main>
+      <div id="main-content"></div>
+    </main>
+    <footer>
+      <p>&copy; 2024 Long Polling App</p>
+    </footer>
+    <script>
+      const getData = async (lastData) => {
+        try {
+          const res = await fetch(
+            `http://localhost:3000/api/getData?lastData=${lastData}`,
+          );
+
+          // ✅ Handle HTTP errors
+          if (!res.ok) {
+            throw new Error(`HTTP error: ${res.status}`);
+          }
+
+          const json = await res.json();
+
+          if (!json || !json.message) {
+            throw new Error("Invalid response format");
+          }
+
+          document.getElementById("main-content").innerHTML = json.message;
+          getData(json.message);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getData();
+    </script>
+  </body>
+</html>
+
+<!-- http://localhost:3000/api/updateData?data=hi -->

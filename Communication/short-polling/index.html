@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Short Polling</title>
+    <style src="style.css"></style>
+  </head>
+  <body>
+    <header>
+      <h1>Short Polling</h1>
+    </header>
+    <main>
+      <p>This is a simple short polling example.</p>
+      <div id="main-content"></div>
+    </main>
+    <footer>
+      <p>&copy; 2024 Short Polling App</p>
+    </footer>
+    <script>
+      // http://localhost:3000/api/data
+
+      const getData = async () => {
+        try {
+          const res = await fetch(`http://localhost:3000/api/data`);
+          const json = await res.json();
+          document.getElementById("main-content").innerHTML = json.message;
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      let intervalId;
+      const shortPolling = () => {
+        intervalId = setInterval(() => {
+          getData();
+        }, 2000);
+      };
+      shortPolling();
+
+      //   clearInterval(intervalId); add this on destroy this comp
+    </script>
+  </body>
+</html>
