@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SSE</title>
+  </head>
+  <body>
+    <header>
+      <h1>Server-Sent Events (SSE)</h1>
+    </header>
+    <main>
+      <div id="sse-events"></div>
+    </main>
+    <footer>
+      <p>&copy; 2024 Communication Technologies</p>
+    </footer>
+    <script>
+      const eventSource = new EventSource("/api/sse");
+      eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        const eventsDiv = document.getElementById("sse-events");
+        eventsDiv.innerHTML += `<p>${data.message}</p>`;
+      };
+    </script>
+  </body>
+</html>
